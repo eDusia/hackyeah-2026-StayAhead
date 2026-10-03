@@ -2,6 +2,15 @@ import { create } from 'zustand';
 
 import type { UserGoal, UserProfile } from '@/types';
 
+const defaultSkillsByDomain: Record<string, string[]> = {
+  ai: ['Prompt Engineering', 'AI Agents', 'Evaluation', 'TypeScript'],
+  software: ['TypeScript', 'React Native', 'Node.js', 'System Design'],
+  data: ['SQL', 'Python', 'Data Analytics', 'BI & Dashboards'],
+  product: ['Product Sense', 'AI Agents', 'Discovery', 'Stakeholder Management'],
+  design: ['UI/UX Design', 'Design Systems', 'Figma', 'User Research'],
+  other: ['Project Management', 'Tech Strategy', 'Communication', 'Agile'],
+};
+
 const emptyProfile: UserProfile = {
   id: 'user-local',
   name: '',
@@ -36,10 +45,12 @@ export const useUserStore = create<UserState>((set) => ({
         ...state.profile,
         name,
         currentRole,
-        headline: `W drodze do roli ${goal.targetRole}`,
+        headline: `W drodze do: ${goal.targetRole}`,
         goal,
+        skills: defaultSkillsByDomain[goal.domain] ?? state.profile.skills,
         isOnboarded: true,
       },
     })),
   resetProfile: () => set({ profile: emptyProfile }),
 }));
+
