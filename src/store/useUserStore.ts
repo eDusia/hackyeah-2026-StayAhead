@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import type { UserGoal, UserProfile } from '@/types';
+import type { AppLanguage, UserGoal, UserProfile } from '@/types';
 
 const defaultSkillsByDomain: Record<string, string[]> = {
   ai: ['Prompt Engineering', 'AI Agents', 'Evaluation', 'TypeScript'],
@@ -19,10 +19,13 @@ const emptyProfile: UserProfile = {
   goal: null,
   skills: ['TypeScript', 'React Native', 'Prompt Engineering'],
   isOnboarded: false,
+  language: 'pl',
 };
 
 interface UserState {
   profile: UserProfile;
+  language: AppLanguage;
+  setLanguage: (lang: AppLanguage) => void;
   setUserGoal: (goal: UserGoal) => void;
   updateProfile: (partial: Partial<Omit<UserProfile, 'id' | 'goal'>>) => void;
   completeOnboarding: (payload: { name: string; currentRole?: string; goal: UserGoal }) => void;
@@ -31,6 +34,12 @@ interface UserState {
 
 export const useUserStore = create<UserState>((set) => ({
   profile: emptyProfile,
+  language: 'pl',
+  setLanguage: (lang) =>
+    set((state) => ({
+      language: lang,
+      profile: { ...state.profile, language: lang },
+    })),
   setUserGoal: (goal) =>
     set((state) => ({
       profile: { ...state.profile, goal },
@@ -51,6 +60,6 @@ export const useUserStore = create<UserState>((set) => ({
         isOnboarded: true,
       },
     })),
-  resetProfile: () => set({ profile: emptyProfile }),
+  resetProfile: () => set((state) => ({ profile: { ...emptyProfile, language: state.language } })),
 }));
 

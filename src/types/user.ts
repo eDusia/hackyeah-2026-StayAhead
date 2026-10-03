@@ -1,5 +1,7 @@
 export type SkillLevel = 'beginner' | 'intermediate' | 'advanced' | 'expert';
 
+export type AppLanguage = 'pl' | 'en';
+
 export type CareerDomain =
   | 'software'
   | 'data'
@@ -44,5 +46,6 @@ export interface UserProfile {
   goal: UserGoal | null;
   skills: string[];
   isOnboarded: boolean;
+  language: AppLanguage;
 }
 
