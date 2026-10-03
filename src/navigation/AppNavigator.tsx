@@ -13,7 +13,12 @@ export function AppNavigator() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: '#020617' },
+        }}
+      >
         {isOnboarded ? (
           <Stack.Screen name="MainTabs" component={TabNavigator} />
         ) : (
