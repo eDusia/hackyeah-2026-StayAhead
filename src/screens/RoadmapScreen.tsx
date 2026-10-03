@@ -10,6 +10,7 @@ import { Card } from '@/components/common/Card';
 import { ProgressBar } from '@/components/common/ProgressBar';
 import { MilestoneCard } from '@/components/roadmap/MilestoneCard';
 import { TimelineNode } from '@/components/roadmap/TimelineNode';
+import { getTranslations } from '@/i18n/translations';
 import { generatedMilestones, generatedRoadmap } from '@/mock/generatedRoadmap';
 import { curatedDailyOffers } from '@/mock/jobsData';
 import { useUserStore } from '@/store/useUserStore';
@@ -19,6 +20,9 @@ import { calculateCompletionRate, calculateMarketMatch } from '@/utils/helpers';
 export function RoadmapScreen() {
   const navigation = useNavigation<BottomTabNavigationProp<MainTabParamList>>();
   const profile = useUserStore((state) => state.profile);
+  const language = useUserStore((state) => state.language);
+  const t = getTranslations(language);
+
   const completedSteps = generatedRoadmap.filter((item) => item.status === 'completed').length;
   const roadmapProgress = calculateCompletionRate(completedSteps, generatedRoadmap.length);
   const topJob = curatedDailyOffers[0];
@@ -32,11 +36,11 @@ export function RoadmapScreen() {
         {/* Header */}
         <View className="mt-2">
           <Text className="text-sm font-semibold uppercase tracking-wider text-primary-600">
-            Ścieżka Rozwoju
+            {t.roadmap.tagline}
           </Text>
-          <Text className="mt-1 text-3xl font-bold text-slate-900">Twoja ścieżka</Text>
+          <Text className="mt-1 text-3xl font-bold text-slate-900">{t.roadmap.title}</Text>
           <Text className="mt-1 text-base text-slate-500">
-            Dedykowany plan etapowy z kamieniami milowymi do roli{' '}
+            {t.roadmap.subtitlePrefix}{' '}
             <Text className="font-semibold text-slate-800">
               {profile.goal?.targetRole ?? 'AI Application Engineer'}
             </Text>
@@ -47,18 +51,18 @@ export function RoadmapScreen() {
         {/* Global Progress Card */}
         <Card className="mt-4 p-4 shadow-sm">
           <View className="flex-row items-center justify-between">
-            <Text className="text-sm font-bold text-slate-900">Całkowity postęp ścieżki</Text>
-            <Badge label={`${roadmapProgress}% Ukończono`} variant="info" />
+            <Text className="text-sm font-bold text-slate-900">{t.roadmap.totalProgressHeader}</Text>
+            <Badge label={t.roadmap.completedBadge(roadmapProgress)} variant="info" />
           </View>
           <View className="mt-2">
             <ProgressBar value={roadmapProgress} label="" />
           </View>
           <View className="mt-3 flex-row items-center justify-between border-t border-slate-100 pt-2.5">
             <Text className="text-xs text-slate-500">
-              Ukończono {completedMilestones} z {generatedMilestones.length} kamieni milowych
+              {t.roadmap.milestonesSummary(completedMilestones, generatedMilestones.length)}
             </Text>
             <Text className="text-xs font-semibold text-primary-700">
-              Tydzień 2 w trakcie
+              {t.roadmap.currentWeekStatus}
             </Text>
           </View>
 
@@ -66,15 +70,14 @@ export function RoadmapScreen() {
           <View className="mt-3 rounded-xl bg-slate-50 p-3 border border-slate-100">
             <View className="flex-row items-center justify-between">
               <Text className="text-xs font-bold text-slate-800">
-                Luka do oferty docelowej:
+                {t.roadmap.targetGapTitle}
               </Text>
               <Text className="text-xs font-bold text-primary-700">
-                {topJob.matchScore}% dopasowania
+                {t.roadmap.targetGapMatch(topJob.matchScore)}
               </Text>
             </View>
             <Text className="mt-1 text-xs leading-4 text-slate-500">
-              Do odblokowania górnych widełek w {topJob.company} brakuje modułu ewaluacji i architektury
-              systemowej (Milestone 3).
+              {t.roadmap.targetGapDesc(topJob.company)}
             </Text>
           </View>
         </Card>
@@ -83,9 +86,9 @@ export function RoadmapScreen() {
         <View className="mt-7">
           <View className="flex-row items-center justify-between">
             <View>
-              <Text className="text-lg font-bold text-slate-900">Kamienie milowe</Text>
+              <Text className="text-lg font-bold text-slate-900">{t.roadmap.milestonesHeader}</Text>
               <Text className="text-xs text-slate-500">
-                Kluczowe etapy weryfikowane przez rekruterów i rynek
+                {t.roadmap.milestonesSubheader}
               </Text>
             </View>
             <Ionicons name="flag" size={18} color="#4f46e5" />
@@ -102,9 +105,9 @@ export function RoadmapScreen() {
         <View className="mt-8">
           <View className="flex-row items-center justify-between mb-3">
             <View>
-              <Text className="text-lg font-bold text-slate-900">Oś czasu (Tydzień po tygodniu)</Text>
+              <Text className="text-lg font-bold text-slate-900">{t.roadmap.timelineHeader}</Text>
               <Text className="text-xs text-slate-500">
-                Krok po kroku do pełnej gotowości na rynku pracy
+                {t.roadmap.timelineSubheader}
               </Text>
             </View>
             <Ionicons name="git-commit-outline" size={20} color="#4f46e5" />
@@ -124,7 +127,7 @@ export function RoadmapScreen() {
         {/* Quick bottom action */}
         <View className="mt-6">
           <Button
-            label="Przejdź do dzisiejszego planu"
+            label={t.roadmap.goToTodayAction}
             onPress={() => navigation.navigate('Today')}
           />
         </View>

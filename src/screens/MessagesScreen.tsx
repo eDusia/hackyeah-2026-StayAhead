@@ -16,6 +16,7 @@ import { Badge } from '@/components/common/Badge';
 import { Button } from '@/components/common/Button';
 import { Card } from '@/components/common/Card';
 import { AgentStatusBadge } from '@/components/dashboard/AgentStatusBadge';
+import { getTranslations } from '@/i18n/translations';
 import { quickReplyOptions } from '@/mock/agentPrompts';
 import { consultationTopics } from '@/mock/mentorSessionsData';
 import { useChatStore } from '@/store/useChatStore';
@@ -29,6 +30,8 @@ type MessageTab = 'mentor_ai' | 'hr_chat' | 'mentor_sessions';
 export function MessagesScreen() {
   const [activeTab, setActiveTab] = useState<MessageTab>('mentor_ai');
   const profile = useUserStore((state) => state.profile);
+  const language = useUserStore((state) => state.language);
+  const t = getTranslations(language);
 
   // 1. AI Chat Store
   const { messages: aiMessages, agentStatus, sendMessage: sendAIMessage } = useChatStore();
@@ -81,9 +84,9 @@ export function MessagesScreen() {
         <View className="flex-row items-start justify-between gap-3">
           <View className="min-w-0 flex-1">
             <Text className="text-sm font-semibold uppercase text-primary-600">
-              Komunikacja
+              {t.messages.tagline}
             </Text>
-            <Text className="text-2xl font-bold leading-7 text-slate-900">Wiadomości</Text>
+            <Text className="text-2xl font-bold leading-7 text-slate-900">{t.messages.title}</Text>
           </View>
           {activeTab === 'mentor_ai' ? (
             <View className="shrink-0">
@@ -92,7 +95,7 @@ export function MessagesScreen() {
           ) : (
             <View className="shrink-0 flex-row items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1">
               <View className="h-2 w-2 rounded-full bg-emerald-500" />
-              <Text className="text-xs font-semibold text-emerald-700">Dostępni mentorzy</Text>
+              <Text className="text-xs font-semibold text-emerald-700">{t.messages.availableMentorsBadge}</Text>
             </View>
           )}
         </View>
@@ -111,7 +114,7 @@ export function MessagesScreen() {
                 activeTab === 'mentor_ai' ? 'text-primary-700' : 'text-slate-500'
               }`}
             >
-              Mentor AI
+              {t.messages.tabs.mentorAi}
             </Text>
           </Pressable>
 
@@ -127,7 +130,7 @@ export function MessagesScreen() {
                 activeTab === 'hr_chat' ? 'text-primary-700' : 'text-slate-500'
               }`}
             >
-              Czat z HR
+              {t.messages.tabs.hrChat}
             </Text>
           </Pressable>
 
@@ -143,7 +146,7 @@ export function MessagesScreen() {
                 activeTab === 'mentor_sessions' ? 'text-primary-700' : 'text-slate-500'
               }`}
             >
-              {bookedSessions.length > 0 ? `Sesje (${bookedSessions.length})` : 'Sesje 1:1'}
+              {t.messages.tabs.mentorSessions(bookedSessions.length)}
             </Text>
           </Pressable>
         </View>
@@ -160,8 +163,10 @@ export function MessagesScreen() {
             <View className="mb-3 items-center">
               <View className="rounded-full bg-slate-200/70 px-3 py-1">
                 <Text className="text-[11px] font-medium text-slate-600">
-                  Kontekst: {profile.goal?.targetRole ?? 'AI Application Engineer'} · Poziom:{' '}
-                  {profile.goal?.currentLevel ?? 'Średniozaawansowany'}
+                  {t.messages.aiTab.contextPrefix(
+                    profile.goal?.targetRole ?? 'AI Application Engineer',
+                    profile.goal?.currentLevel ?? (language === 'en' ? 'Intermediate' : 'Średniozaawansowany')
+                  )}
                 </Text>
               </View>
             </View>
@@ -190,7 +195,7 @@ export function MessagesScreen() {
             {agentStatus !== 'idle' ? (
               <View className="mb-3 flex-row items-center gap-2 self-start rounded-2xl bg-white px-3.5 py-2 border border-slate-200">
                 <Ionicons name="sparkles" size={14} color="#4f46e5" />
-                <Text className="text-xs text-slate-500">Mentor analizuje Twoją ścieżkę...</Text>
+                <Text className="text-xs text-slate-500">{t.messages.aiTab.analyzingText}</Text>
               </View>
             ) : null}
           </ScrollView>
@@ -217,7 +222,7 @@ export function MessagesScreen() {
               <TextInput
                 value={aiDraft}
                 onChangeText={setAiDraft}
-                placeholder="Zadaj pytanie mentorowi AI..."
+                placeholder={t.messages.aiTab.inputPlaceholder}
                 placeholderTextColor="#94a3b8"
                 className="flex-1 py-2.5 text-base text-slate-900"
                 onSubmitEditing={() => handleAISubmit()}
@@ -300,13 +305,12 @@ export function MessagesScreen() {
                   </Text>
                 </View>
                 <Badge
-                  label={activeHRContact.isOnline ? 'Aktywna' : 'W 24h'}
+                  label={activeHRContact.isOnline ? t.messages.hrTab.activeBadge : t.messages.hrTab.replyTimeBadge}
                   variant={activeHRContact.isOnline ? 'success' : 'default'}
                 />
               </View>
               <Text className="mt-2 text-[11px] leading-4 text-slate-500">
-                Możesz skonsultować realne oczekiwania rekruterów, zapytać o audyt CV pod ATS lub
-                uzyskać bezpośrednie polecenie do firm partnerskich.
+                {t.messages.hrTab.recruiterInfoDesc}
               </Text>
             </View>
 
@@ -346,7 +350,7 @@ export function MessagesScreen() {
               <TextInput
                 value={hrDraft}
                 onChangeText={setHrDraft}
-                placeholder={`Napisz do ${activeHRContact.name.split(' ')[0]} (HR)...`}
+                placeholder={t.messages.hrTab.inputPlaceholder(activeHRContact.name.split(' ')[0])}
                 placeholderTextColor="#94a3b8"
                 className="flex-1 py-2.5 text-base text-slate-900"
                 onSubmitEditing={handleHRSubmit}
@@ -374,13 +378,12 @@ export function MessagesScreen() {
               </View>
               <View className="min-w-0 flex-1">
                 <Text className="text-base font-bold leading-5 text-slate-900">
-                  Możliwy czas z mentorem
+                  {t.messages.sessionsTab.bannerTitle}
                 </Text>
               </View>
             </View>
             <Text className="mt-1 text-xs leading-5 text-slate-600">
-              Wybierz dogodny termin na bezpłatną 30-minutową sesję 1:1. Skonsultuj kod, architekturę
-              agentów lub porozmawiaj z rekruterem o dopasowaniu CV do widełek rynkowych.
+              {t.messages.sessionsTab.bannerDesc}
             </Text>
           </Card>
 
@@ -388,7 +391,7 @@ export function MessagesScreen() {
           {bookedSessions.length > 0 && (
             <View className="mt-6">
               <Text className="text-base font-bold text-slate-900">
-                Twoje zaplanowane spotkania ({bookedSessions.length})
+                {t.messages.sessionsTab.bookedSessionsHeader(bookedSessions.length)}
               </Text>
               <View className="mt-2.5 gap-3">
                 {bookedSessions.map((session) => (
@@ -398,7 +401,7 @@ export function MessagesScreen() {
                         <View className="flex-row items-center gap-1.5">
                           <Ionicons name="checkmark-circle" size={16} color="#059669" />
                           <Text className="text-xs font-bold text-emerald-800">
-                            Rezerwacja potwierdzona
+                            {t.messages.sessionsTab.bookingConfirmed}
                           </Text>
                         </View>
                         <Text className="mt-1 text-base font-bold text-slate-900">
@@ -412,7 +415,7 @@ export function MessagesScreen() {
                         onPress={() => cancelSlot(session.id)}
                         className="rounded-lg border border-slate-200 bg-white px-2 py-1"
                       >
-                        <Text className="text-[11px] font-semibold text-rose-600">Odwołaj</Text>
+                        <Text className="text-[11px] font-semibold text-rose-600">{t.messages.sessionsTab.cancelButton}</Text>
                       </Pressable>
                     </View>
 
@@ -424,12 +427,12 @@ export function MessagesScreen() {
                         </Text>
                       </View>
                       <Text className="text-xs text-slate-400">•</Text>
-                      <Text className="text-xs text-slate-600">30 min (Google Meet)</Text>
+                      <Text className="text-xs text-slate-600">{t.messages.sessionsTab.durationLabel}</Text>
                     </View>
 
                     {session.bookedTopic ? (
                       <Text className="mt-2 text-xs text-slate-600">
-                        Temat: <Text className="font-semibold text-slate-800">{session.bookedTopic}</Text>
+                        {t.messages.sessionsTab.topicPrefix} <Text className="font-semibold text-slate-800">{session.bookedTopic}</Text>
                       </Text>
                     ) : null}
                   </Card>
@@ -443,10 +446,10 @@ export function MessagesScreen() {
             <View className="flex-row items-start justify-between gap-3">
               <View className="min-w-0 flex-1">
                 <Text className="text-base font-bold leading-5 text-slate-900">
-                  Dostępne sloty czasowe
+                  {t.messages.sessionsTab.availableSlotsHeader}
                 </Text>
               </View>
-              <Text className="shrink-0 text-xs font-medium text-slate-400">Najbliższe dni</Text>
+              <Text className="shrink-0 text-xs font-medium text-slate-400">{t.messages.sessionsTab.availableSlotsSubheader}</Text>
             </View>
 
             <View className="mt-3 gap-3">
@@ -470,7 +473,7 @@ export function MessagesScreen() {
 
                     <View className="mt-2.5 rounded-xl border border-slate-100 bg-slate-50 p-2">
                       <Text className="text-[11px] font-medium leading-4 text-slate-600">
-                        Specjalizacja: {slot.specialization}
+                        {t.messages.sessionsTab.specializationPrefix} {slot.specialization}
                       </Text>
                     </View>
 
@@ -487,13 +490,13 @@ export function MessagesScreen() {
                       </View>
 
                       {isBooked ? (
-                        <Text className="text-xs font-bold text-emerald-700">Zarezerwowano</Text>
+                        <Text className="text-xs font-bold text-emerald-700">{t.messages.sessionsTab.bookedStatus}</Text>
                       ) : (
                         <Pressable
                           onPress={() => setSelectedSlotForBooking(slot)}
                           className="self-start rounded-xl bg-primary-600 px-3.5 py-1.5 active:bg-primary-700"
                         >
-                          <Text className="text-xs font-bold text-white">Wybierz termin</Text>
+                          <Text className="text-xs font-bold text-white">{t.messages.sessionsTab.selectSlotButton}</Text>
                         </Pressable>
                       )}
                     </View>
@@ -514,7 +517,7 @@ export function MessagesScreen() {
       >
         <SafeAreaView className="flex-1 bg-white">
           <View className="flex-row items-center justify-between border-b border-slate-100 px-5 py-3">
-            <Text className="text-base font-bold text-slate-900">Rezerwacja sesji 1:1</Text>
+            <Text className="text-base font-bold text-slate-900">{t.messages.modal.bookTitle}</Text>
             <Pressable
               onPress={() => setSelectedSlotForBooking(null)}
               className="h-8 w-8 items-center justify-center rounded-full bg-slate-100"
@@ -527,7 +530,7 @@ export function MessagesScreen() {
             <ScrollView contentContainerClassName="px-5 py-6" showsVerticalScrollIndicator={false}>
               <View className="rounded-2xl border border-primary-100 bg-primary-50/50 p-4">
                 <Text className="text-xs font-bold uppercase tracking-wider text-primary-700">
-                  Wybrany mentor i termin
+                  {t.messages.modal.selectedMentorAndDate}
                 </Text>
                 <Text className="mt-1 text-xl font-bold text-slate-900">
                   {selectedSlotForBooking.mentorName}
@@ -545,7 +548,7 @@ export function MessagesScreen() {
               </View>
 
               <Text className="mt-6 text-base font-bold text-slate-900">
-                Wybierz cel / temat spotkania:
+                {t.messages.modal.chooseTopicTitle}
               </Text>
               <View className="mt-3 gap-2.5">
                 {consultationTopics.map((top) => {
@@ -578,9 +581,9 @@ export function MessagesScreen() {
               </View>
 
               <View className="mt-8 gap-3">
-                <Button label="Potwierdź i zarezerwuj termin" onPress={handleConfirmBooking} />
+                <Button label={t.messages.modal.confirmButton} onPress={handleConfirmBooking} />
                 <Button
-                  label="Anuluj"
+                  label={t.messages.modal.cancelButton}
                   variant="outline"
                   onPress={() => setSelectedSlotForBooking(null)}
                 />
@@ -603,15 +606,14 @@ export function MessagesScreen() {
               <Ionicons name="checkmark" size={26} color="#059669" />
             </View>
             <Text className="mt-3 text-center text-xl font-bold text-slate-900">
-              Sesja 1:1 zarezerwowana!
+              {t.messages.modal.successTitle}
             </Text>
             <Text className="mt-2 text-center text-sm leading-5 text-slate-600">
-              Twój termin został zapisany. Link do wideo-rozmowy oraz przypomnienie w kalendarzu
-              znajdziesz w zakładce "Sesje 1:1".
+              {t.messages.modal.successDesc}
             </Text>
             <Button
               className="mt-6"
-              label="Świetnie, przejdź do spotkań"
+              label={t.messages.modal.successButton}
               onPress={() => setBookingSuccessModal(false)}
             />
           </View>
