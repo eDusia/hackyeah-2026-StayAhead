@@ -1,0 +1,88 @@
+import type { Milestone, RoadmapItem } from '@/types';
+
+export const generatedMilestones: Milestone[] = [
+  {
+    id: 'ms-foundation',
+    title: 'Fundamenty AI Product',
+    description: 'Uporządkuj bazę TypeScript, LLM workflow i język produktu.',
+    targetWeek: 3,
+    skills: ['TypeScript', 'Prompt Engineering', 'Product Sense'],
+    status: 'completed',
+    progress: 100,
+  },
+  {
+    id: 'ms-agents',
+    title: 'Pierwszy agent w produkcji',
+    description: 'Zbuduj agenta, który rozwiązuje realny problem i ma mierzalny efekt.',
+    targetWeek: 6,
+    skills: ['AI Agents', 'Evaluation', 'System Design'],
+    status: 'in_progress',
+    progress: 45,
+  },
+  {
+    id: 'ms-portfolio',
+    title: 'Portfolio i widoczność',
+    description: 'Spakuj case study, zaktualizuj LinkedIn i zacznij rozmowy z rynkiem.',
+    targetWeek: 10,
+    skills: ['Storytelling', 'Networking', 'Interview Prep'],
+    status: 'upcoming',
+    progress: 0,
+  },
+  {
+    id: 'ms-offer',
+    title: 'Gotowość do oferty',
+    description: 'Domknij lukę kompetencyjną i wejdź w proces rekrutacyjny na target role.',
+    targetWeek: 14,
+    skills: ['System Design', 'Negotiation', 'Case Interviews'],
+    status: 'locked',
+    progress: 0,
+  },
+];
+
+export const generatedRoadmap: RoadmapItem[] = [
+  {
+    id: 'rm-1',
+    title: 'Mapa kompetencji i luki',
+    description: 'Porównaj swój profil z ogłoszeniami na target role i wybierz 3 luki priorytetowe.',
+    week: 1,
+    status: 'completed',
+    skills: ['Career Strategy'],
+    milestoneId: 'ms-foundation',
+  },
+  {
+    id: 'rm-2',
+    title: 'TypeScript w praktyce AI',
+    description: 'Zrób mini-projekt: typed tool-calling i walidacja odpowiedzi modelu.',
+    week: 2,
+    status: 'completed',
+    skills: ['TypeScript', 'Prompt Engineering'],
+    milestoneId: 'ms-foundation',
+  },
+  {
+    id: 'rm-3',
+    title: 'Architektura prostego agenta',
+    description: 'Zaprojektuj pętlę plan -> tool -> memory -> ewaluacja.',
+    week: 4,
+    status: 'in_progress',
+    skills: ['AI Agents', 'System Design'],
+    milestoneId: 'ms-agents',
+  },
+  {
+    id: 'rm-4',
+    title: 'Ewaluacja jakości odpowiedzi',
+    description: 'Dodaj 8 przypadków testowych i metrykę sukcesu dla agenta.',
+    week: 5,
+    status: 'upcoming',
+    skills: ['Evaluation', 'AI Agents'],
+    milestoneId: 'ms-agents',
+  },
+  {
+    id: 'rm-5',
+    title: 'Publiczne case study',
+    description: 'Opisz problem, decyzje produktowe i wynik biznesowy w jednym wpisie.',
+    week: 8,
+    status: 'locked',
+    skills: ['Storytelling', 'Product Sense'],
+    milestoneId: 'ms-portfolio',
+  },
+];
