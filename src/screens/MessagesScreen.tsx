@@ -78,17 +78,19 @@ export function MessagesScreen() {
     <SafeAreaView className="flex-1 bg-slate-50">
       {/* Top Header & Segmented Tabs */}
       <View className="border-b border-slate-200 bg-white px-5 pt-2 pb-3">
-        <View className="flex-row items-center justify-between">
-          <View>
-            <Text className="text-sm font-semibold uppercase tracking-wider text-primary-600">
+        <View className="flex-row items-start justify-between gap-3">
+          <View className="min-w-0 flex-1">
+            <Text className="text-sm font-semibold uppercase text-primary-600">
               Komunikacja
             </Text>
-            <Text className="text-2xl font-bold text-slate-900">Wiadomości</Text>
+            <Text className="text-2xl font-bold leading-7 text-slate-900">Wiadomości</Text>
           </View>
           {activeTab === 'mentor_ai' ? (
-            <AgentStatusBadge status={agentStatus} />
+            <View className="shrink-0">
+              <AgentStatusBadge status={agentStatus} />
+            </View>
           ) : (
-            <View className="flex-row items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1">
+            <View className="shrink-0 flex-row items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1">
               <View className="h-2 w-2 rounded-full bg-emerald-500" />
               <Text className="text-xs font-semibold text-emerald-700">Dostępni mentorzy</Text>
             </View>
@@ -96,14 +98,15 @@ export function MessagesScreen() {
         </View>
 
         {/* 3-Way Segmented Control */}
-        <View className="mt-3 flex-row rounded-2xl bg-slate-100 p-1">
+        <View className="mt-3 flex-row gap-1 rounded-2xl bg-slate-100 p-1">
           <Pressable
             onPress={() => setActiveTab('mentor_ai')}
-            className={`flex-1 items-center rounded-xl py-2 ${
+            className={`min-w-0 flex-1 items-center rounded-xl px-1 py-2 ${
               activeTab === 'mentor_ai' ? 'bg-white shadow-xs' : ''
             }`}
           >
             <Text
+              numberOfLines={1}
               className={`text-xs font-bold ${
                 activeTab === 'mentor_ai' ? 'text-primary-700' : 'text-slate-500'
               }`}
@@ -114,11 +117,12 @@ export function MessagesScreen() {
 
           <Pressable
             onPress={() => setActiveTab('hr_chat')}
-            className={`flex-1 items-center rounded-xl py-2 ${
+            className={`min-w-0 flex-1 items-center rounded-xl px-1 py-2 ${
               activeTab === 'hr_chat' ? 'bg-white shadow-xs' : ''
             }`}
           >
             <Text
+              numberOfLines={1}
               className={`text-xs font-bold ${
                 activeTab === 'hr_chat' ? 'text-primary-700' : 'text-slate-500'
               }`}
@@ -129,16 +133,17 @@ export function MessagesScreen() {
 
           <Pressable
             onPress={() => setActiveTab('mentor_sessions')}
-            className={`flex-1 items-center rounded-xl py-2 ${
+            className={`min-w-0 flex-1 items-center rounded-xl px-1 py-2 ${
               activeTab === 'mentor_sessions' ? 'bg-white shadow-xs' : ''
             }`}
           >
             <Text
+              numberOfLines={1}
               className={`text-xs font-bold ${
                 activeTab === 'mentor_sessions' ? 'text-primary-700' : 'text-slate-500'
               }`}
             >
-              Sesje 1:1 {bookedSessions.length > 0 ? `(${bookedSessions.length})` : ''}
+              {bookedSessions.length > 0 ? `Sesje (${bookedSessions.length})` : 'Sesje 1:1'}
             </Text>
           </Pressable>
         </View>
@@ -363,11 +368,15 @@ export function MessagesScreen() {
         <ScrollView contentContainerClassName="px-5 py-4 pb-12" showsVerticalScrollIndicator={false}>
           {/* Hero Banner */}
           <Card className="border-primary-100 bg-gradient-to-br from-white to-primary-50/40 p-4">
-            <View className="flex-row items-center gap-2">
-              <Ionicons name="calendar" size={20} color="#4f46e5" />
-              <Text className="text-base font-bold text-slate-900">
-                Możliwy czas z mentorem
-              </Text>
+            <View className="flex-row items-start gap-2">
+              <View className="mt-0.5 shrink-0">
+                <Ionicons name="calendar" size={20} color="#4f46e5" />
+              </View>
+              <View className="min-w-0 flex-1">
+                <Text className="text-base font-bold leading-5 text-slate-900">
+                  Możliwy czas z mentorem
+                </Text>
+              </View>
             </View>
             <Text className="mt-1 text-xs leading-5 text-slate-600">
               Wybierz dogodny termin na bezpłatną 30-minutową sesję 1:1. Skonsultuj kod, architekturę
@@ -431,9 +440,13 @@ export function MessagesScreen() {
 
           {/* DOSTĘPNE TERMINY */}
           <View className="mt-6">
-            <View className="flex-row items-center justify-between">
-              <Text className="text-base font-bold text-slate-900">Dostępne sloty czasowe</Text>
-              <Text className="text-xs font-medium text-slate-400">Najbliższe dni</Text>
+            <View className="flex-row items-start justify-between gap-3">
+              <View className="min-w-0 flex-1">
+                <Text className="text-base font-bold leading-5 text-slate-900">
+                  Dostępne sloty czasowe
+                </Text>
+              </View>
+              <Text className="shrink-0 text-xs font-medium text-slate-400">Najbliższe dni</Text>
             </View>
 
             <View className="mt-3 gap-3">
@@ -441,35 +454,36 @@ export function MessagesScreen() {
                 const isBooked = !slot.available;
                 return (
                   <Card key={slot.id} className="p-4">
-                    <View className="flex-row items-start justify-between">
-                      <View className="flex-1 pr-2">
-                        <View className="flex-row items-center gap-2">
-                          <Text className="text-sm font-bold text-slate-900">
-                            {slot.mentorName}
-                          </Text>
-                          <Badge
-                            label={slot.durationMinutes + ' min'}
-                            variant="info"
-                          />
-                        </View>
-                        <Text className="mt-0.5 text-xs text-slate-500">
+                    <View className="flex-row items-start justify-between gap-2">
+                      <View className="min-w-0 flex-1">
+                        <Text className="text-sm font-bold leading-5 text-slate-900">
+                          {slot.mentorName}
+                        </Text>
+                        <Text className="mt-0.5 text-xs leading-4 text-slate-500">
                           {slot.mentorTitle} · {slot.mentorCompany}
                         </Text>
                       </View>
+                      <View className="shrink-0">
+                        <Badge label={`${slot.durationMinutes} min`} variant="info" />
+                      </View>
                     </View>
 
-                    <View className="mt-2.5 rounded-xl bg-slate-50 p-2 border border-slate-100">
-                      <Text className="text-[11px] font-medium text-slate-600">
+                    <View className="mt-2.5 rounded-xl border border-slate-100 bg-slate-50 p-2">
+                      <Text className="text-[11px] font-medium leading-4 text-slate-600">
                         Specjalizacja: {slot.specialization}
                       </Text>
                     </View>
 
-                    <View className="mt-3 flex-row items-center justify-between border-t border-slate-100 pt-3">
+                    <View className="mt-3 gap-2.5 border-t border-slate-100 pt-3">
                       <View className="flex-row items-center gap-1.5">
-                        <Ionicons name="calendar-outline" size={14} color="#4f46e5" />
-                        <Text className="text-xs font-bold text-slate-800">
-                          {slot.date}, {slot.time}
-                        </Text>
+                        <View className="shrink-0">
+                          <Ionicons name="calendar-outline" size={14} color="#4f46e5" />
+                        </View>
+                        <View className="min-w-0 flex-1">
+                          <Text className="text-xs font-bold leading-4 text-slate-800">
+                            {slot.date}, {slot.time}
+                          </Text>
+                        </View>
                       </View>
 
                       {isBooked ? (
@@ -477,7 +491,7 @@ export function MessagesScreen() {
                       ) : (
                         <Pressable
                           onPress={() => setSelectedSlotForBooking(slot)}
-                          className="rounded-xl bg-primary-600 px-3.5 py-1.5 active:bg-primary-700"
+                          className="self-start rounded-xl bg-primary-600 px-3.5 py-1.5 active:bg-primary-700"
                         >
                           <Text className="text-xs font-bold text-white">Wybierz termin</Text>
                         </Pressable>
