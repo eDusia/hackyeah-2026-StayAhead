@@ -1,0 +1,155 @@
+import type { CuratedJobOffer, InDemandRole, SenioritySalary } from '@/types';
+
+export const inDemandRoles: InDemandRole[] = [
+  {
+    id: 'role-ai-app-eng',
+    title: 'AI Application Engineer',
+    demandIndex: 96,
+    growthPercent: 68,
+    openPositionsCount: 340,
+    topSkills: ['AI Agents', 'TypeScript', 'Tool Calling', 'System Design'],
+    description: 'Najbardziej poszukiwana rola: inżynier łączący programowanie aplikacji z modelami językowymi i orkiestracją agentów.',
+    category: 'AI / Software',
+  },
+  {
+    id: 'role-sr-fullstack',
+    title: 'Senior Fullstack (AI-Ready)',
+    demandIndex: 91,
+    growthPercent: 24,
+    openPositionsCount: 520,
+    topSkills: ['TypeScript', 'React Native / React', 'Node.js', 'LLM APIs'],
+    description: 'Nacisk na samodzielną realizację funkcji produktowych przy wsparciu narzędzi generatywnych.',
+    category: 'Software',
+  },
+  {
+    id: 'role-evals-eng',
+    title: 'LLMOps & Evals Specialist',
+    demandIndex: 88,
+    growthPercent: 85,
+    openPositionsCount: 190,
+    topSkills: ['Model Evaluation', 'Python', 'Benchmarking', 'Test Automation'],
+    description: 'Wzrost o 85% w 2026: weryfikacja dokładności, unikanie halucynacji i bezpieczeństwo agentów w produkcji.',
+    category: 'AI / Quality',
+  },
+  {
+    id: 'role-ai-pm',
+    title: 'AI Product Manager',
+    demandIndex: 82,
+    growthPercent: 42,
+    openPositionsCount: 210,
+    topSkills: ['Product Discovery', 'AI Feasibility', 'Data Literacy', 'Roadmapping'],
+    description: 'Łączenie zrozumienia technologii agentowych z celami biznesowymi i monetyzacją.',
+    category: 'Product',
+  },
+];
+
+export const senioritySalaries: SenioritySalary[] = [
+  {
+    level: 'junior',
+    label: 'Junior',
+    b2bRange: '9 000 – 14 000 PLN',
+    uopRange: '8 000 – 12 000 PLN brutto',
+    minK: 9,
+    maxK: 14,
+    demandGrowth: '+12% r/r',
+  },
+  {
+    level: 'mid',
+    label: 'Mid',
+    b2bRange: '16 000 – 23 000 PLN',
+    uopRange: '14 000 – 19 000 PLN brutto',
+    minK: 16,
+    maxK: 23,
+    demandGrowth: '+22% r/r',
+  },
+  {
+    level: 'senior',
+    label: 'Senior',
+    b2bRange: '24 000 – 33 000 PLN',
+    uopRange: '20 000 – 28 000 PLN brutto',
+    minK: 24,
+    maxK: 33,
+    demandGrowth: '+31% r/r',
+  },
+  {
+    level: 'lead',
+    label: 'Lead / AI Architect',
+    b2bRange: '32 000 – 44 000 PLN',
+    uopRange: '27 000 – 38 000 PLN brutto',
+    minK: 32,
+    maxK: 44,
+    demandGrowth: '+48% r/r',
+  },
+];
+
+export const curatedDailyOffers: CuratedJobOffer[] = [
+  {
+    id: 'job-nordic-labs',
+    title: 'AI Application Engineer',
+    company: 'Nordic Labs',
+    location: 'Warszawa / Hybrid (1 d/msc)',
+    workModel: 'hybrid',
+    salaryB2B: '18 000 – 24 000 PLN + VAT',
+    salaryUoP: '16 000 – 21 000 PLN brutto',
+    matchScore: 78,
+    matchingSkills: ['TypeScript', 'AI Agents', 'Prompt Engineering'],
+    missingSkills: ['System Design', 'Ewaluacja modeli'],
+    whyGoodMatch:
+      'Idealne dopasowanie do Twojego obecnego etapu nauki — zespół oferuje silny mentoring z architektury systemowej.',
+    description:
+      'Dołączysz do zespołu budującego autonomicznych agentów analizujących dane rynkowe dla klientów z sektora FinTech.',
+    keyResponsibilities: [
+      'Implementacja pętli agentowych opartych na tool-callingu i strukturze JSON',
+      'Integracja z bazami wektorowymi i silnikiem wyszukiwania semantycznego',
+      'Współpraca z zespołem produktowym przy definicji metryk jakości agenta',
+    ],
+    perks: ['Budżet szkoleniowy 6 000 PLN', 'Elastyczne godziny pracy', 'Prywatna opieka medyczna LuxMed', 'Sprzęt Apple M3 Max'],
+    isHotToday: true,
+  },
+  {
+    id: 'job-helix-cloud',
+    title: 'Senior Fullstack Engineer (AI Core)',
+    company: 'Helix Cloud',
+    location: '100% Remote (Polska / EU)',
+    workModel: 'remote',
+    salaryB2B: '22 000 – 28 000 PLN + VAT',
+    salaryUoP: '19 000 – 24 000 PLN brutto',
+    matchScore: 71,
+    matchingSkills: ['TypeScript', 'React Native', 'Node.js'],
+    missingSkills: ['System Design', 'Architektura Microservices'],
+    whyGoodMatch:
+      'Wymaga mocnego TypeScriptu i chęci integracji agentów do aplikacji web/mobile. Twoje portfolio idealnie odpowiada ich oczekiwaniom.',
+    description:
+      'Projekt platformy chmurowej nowej generacji wspomaganej przez asystentów AI dla inżynierów DevOps.',
+    keyResponsibilities: [
+      'Rozwój modułów interaktywnych w React/React Native i backendu Node.js',
+      'Tworzenie bezpiecznych integracji API z zewnętrznymi modelami frontierowymi',
+      'Dbanie o wydajność i niskie opóźnienia w strumieniowaniu odpowiedzi',
+    ],
+    perks: ['Praca 100% zdalna', 'Płatne dni wolne na B2B (26 dni)', 'Karta sportowa Multisport', 'Dofinansowanie home office'],
+    isHotToday: true,
+  },
+  {
+    id: 'job-orbit-studio',
+    title: 'AI Product Specialist & Prototyper',
+    company: 'Orbit Studio',
+    location: 'Kraków / Remote',
+    workModel: 'remote',
+    salaryB2B: '20 000 – 26 000 PLN + VAT',
+    salaryUoP: '17 000 – 22 000 PLN brutto',
+    matchScore: 65,
+    matchingSkills: ['AI Agents', 'Prompt Engineering', 'Product Sense'],
+    missingSkills: ['Testy automatyczne', 'Ewaluacja'],
+    whyGoodMatch:
+      'Świetny wybór, jeśli chcesz łączyć programowanie z myśleniem produktowym i prototypowaniem agentów w szybkim tempie.',
+    description:
+      'Studio innowacji tworzące dedykowane narzędzia AI dla startupów w Dolinie Krzemowej i Europie Zachodniej.',
+    keyResponsibilities: [
+      'Szybkie prototypowanie interfejsów i logiki agentów konwersacyjnych',
+      'Weryfikacja założeń z użytkownikami końcowymi i zbieranie feedbacku',
+      'Przygotowywanie demonstracji i dokumentacji wdrożeniowej',
+    ],
+    perks: ['Udział w sukcesie projektów (bonus kwartalny)', 'Mentoring od byłych inżynierów Google', 'Wyjazdy integracyjne w Alpy'],
+    isHotToday: false,
+  },
+];

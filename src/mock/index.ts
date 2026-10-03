@@ -3,3 +3,7 @@ export * from './jobPostings';
 export * from './generatedRoadmap';
 export * from './dailyTasks';
 export * from './agentPrompts';
+export * from './newsData';
+export * from './jobsData';
+export * from './mentorSessionsData';
+export * from './hrChatData';
