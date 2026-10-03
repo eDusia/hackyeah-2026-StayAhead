@@ -1,6 +1,7 @@
 import DateTimePicker, { type DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button } from '@/components/common/Button';
@@ -61,19 +62,52 @@ export function OnboardingScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
-      <ScrollView contentContainerClassName="px-5 pb-8" keyboardShouldPersistTaps="handled">
-        <Text className="mt-4 text-sm font-semibold uppercase tracking-widest text-primary-600">
-          StayAhead · krok {step + 1} z 3
-        </Text>
-        <Text className="mt-2 text-3xl font-bold text-slate-900">Ustaw swój cel, resztę poukłada agent.</Text>
-        <Text className="mt-2 text-base leading-6 text-slate-500">
-          Krótki onboarding wystarczy, żeby zbudować dzienny plan, roadmapę i kontekst rozmowy z mentorem.
-        </Text>
+    <SafeAreaView className="flex-1 bg-slate-950">
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerClassName="px-5 pb-10 pt-3"
+        keyboardShouldPersistTaps="handled"
+      >
+        <Animated.View entering={FadeInDown.duration(400)}>
+          <View className="flex-row items-center justify-between">
+            <Text className="text-xs font-bold uppercase tracking-widest text-indigo-400">
+              StayAhead · Krok {step + 1} z 3
+            </Text>
+            <View className="flex-row gap-1.5">
+              {[0, 1, 2].map((i) => (
+                <View
+                  key={i}
+                  className={`h-1.5 rounded-full transition-all ${
+                    i === step
+                      ? 'w-6 bg-indigo-500'
+                      : i < step
+                      ? 'w-3 bg-indigo-900'
+                      : 'w-3 bg-slate-800'
+                  }`}
+                />
+              ))}
+            </View>
+          </View>
+
+          <Text className="mt-3 text-3xl font-extrabold tracking-tight text-slate-100">
+            Ustaw swój cel, resztę poukłada agent.
+          </Text>
+          <Text className="mt-2 text-base leading-6 text-slate-400">
+            Krótki onboarding wystarczy, aby zbudować codzienny plan, roadmapę kompetencji i kontekst
+            rozmowy z mentorem AI.
+          </Text>
+        </Animated.View>
 
         {step === 0 ? (
-          <View className="mt-8 gap-4">
-            <Input label="Jak masz na imię?" value={name} onChangeText={setName} placeholder="np. Ania" icon="person-outline" error={error} />
+          <Animated.View entering={FadeInDown.delay(100).duration(400)} className="mt-8 gap-4">
+            <Input
+              label="Jak masz na imię?"
+              value={name}
+              onChangeText={setName}
+              placeholder="np. Ania"
+              icon="person-outline"
+              error={error}
+            />
             <Input
               label="Obecna rola (opcjonalnie)"
               value={currentRole}
@@ -81,11 +115,11 @@ export function OnboardingScreen() {
               placeholder="np. Mid Frontend Developer"
               icon="briefcase-outline"
             />
-          </View>
+          </Animated.View>
         ) : null}
 
         {step === 1 ? (
-          <View className="mt-8 gap-4">
+          <Animated.View entering={FadeInDown.delay(100).duration(400)} className="mt-8 gap-4">
             <Input
               label="Docelowa rola"
               value={targetRole}
@@ -94,36 +128,50 @@ export function OnboardingScreen() {
               icon="flag-outline"
               error={error}
             />
-            <Text className="text-sm font-medium text-slate-600">Obszar kariery</Text>
-            <View className="flex-row flex-wrap gap-2">
+            <Text className="mt-2 text-sm font-semibold text-slate-300">Obszar kariery</Text>
+            <View className="flex-row flex-wrap gap-2.5">
               {domains.map((item) => (
                 <Pressable
                   key={item}
                   onPress={() => setDomain(item)}
-                  className={`rounded-full px-3 py-2 ${domain === item ? 'bg-primary-600' : 'bg-white border border-slate-200'}`}
+                  className={`rounded-2xl border px-4 py-2.5 ${
+                    domain === item
+                      ? 'border-indigo-400 bg-indigo-600 shadow-md shadow-indigo-950/60'
+                      : 'border-slate-800 bg-slate-900/80 active:bg-slate-800'
+                  }`}
                 >
-                  <Text className={`text-sm font-medium ${domain === item ? 'text-white' : 'text-slate-600'}`}>
+                  <Text
+                    className={`text-sm font-semibold ${
+                      domain === item ? 'text-white' : 'text-slate-300'
+                    }`}
+                  >
                     {CAREER_DOMAIN_LABELS[item]}
                   </Text>
                 </Pressable>
               ))}
             </View>
-          </View>
+          </Animated.View>
         ) : null}
 
         {step === 2 ? (
-          <View className="mt-8 gap-4">
-            <Text className="text-sm font-medium text-slate-600">Twój obecny poziom</Text>
-            <View className="flex-row flex-wrap gap-2">
+          <Animated.View entering={FadeInDown.delay(100).duration(400)} className="mt-8 gap-4">
+            <Text className="text-sm font-semibold text-slate-300">Twój obecny poziom</Text>
+            <View className="flex-row flex-wrap gap-2.5">
               {levels.map((item) => (
                 <Pressable
                   key={item}
                   onPress={() => setCurrentLevel(item)}
-                  className={`rounded-full px-3 py-2 ${
-                    currentLevel === item ? 'bg-slate-900' : 'bg-white border border-slate-200'
+                  className={`rounded-2xl border px-4 py-2.5 ${
+                    currentLevel === item
+                      ? 'border-indigo-400 bg-indigo-600 shadow-md shadow-indigo-950/60'
+                      : 'border-slate-800 bg-slate-900/80 active:bg-slate-800'
                   }`}
                 >
-                  <Text className={`text-sm font-medium ${currentLevel === item ? 'text-white' : 'text-slate-600'}`}>
+                  <Text
+                    className={`text-sm font-semibold ${
+                      currentLevel === item ? 'text-white' : 'text-slate-300'
+                    }`}
+                  >
                     {SKILL_LEVEL_LABELS[item]}
                   </Text>
                 </Pressable>
@@ -131,25 +179,37 @@ export function OnboardingScreen() {
             </View>
             <Pressable
               onPress={() => setShowPicker(true)}
-              className="min-h-[52px] justify-center rounded-2xl border border-slate-200 bg-white px-4"
+              className="mt-2 min-h-[56px] justify-center rounded-2xl border border-slate-800 bg-slate-900/90 px-4 active:border-indigo-500/50"
             >
-              <Text className="text-xs font-medium uppercase tracking-wide text-slate-400">Cel do</Text>
-              <Text className="mt-1 text-base font-semibold text-slate-900">{formatDate(targetDate.toISOString())}</Text>
+              <Text className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                Planowana data realizacji celu
+              </Text>
+              <Text className="mt-1 text-base font-bold text-slate-100">
+                {formatDate(targetDate.toISOString())}
+              </Text>
             </Pressable>
             {showPicker ? (
-              <DateTimePicker value={targetDate} mode="date" display="spinner" onChange={onDateChange} />
+              <DateTimePicker
+                value={targetDate}
+                mode="date"
+                display="spinner"
+                themeVariant="dark"
+                onChange={onDateChange}
+              />
             ) : null}
-          </View>
+          </Animated.View>
         ) : null}
 
-        <View className="mt-8 gap-3">
+        <Animated.View entering={FadeInDown.delay(200).duration(400)} className="mt-9 gap-3">
           {step < 2 ? (
             <Button label="Dalej" onPress={goNext} />
           ) : (
             <Button label="Wygeneruj mój plan" onPress={finish} />
           )}
-          {step > 0 ? <Button label="Wstecz" variant="ghost" onPress={() => setStep((current) => current - 1)} /> : null}
-        </View>
+          {step > 0 ? (
+            <Button label="Wstecz" variant="ghost" onPress={() => setStep((current) => current - 1)} />
+          ) : null}
+        </Animated.View>
       </ScrollView>
     </SafeAreaView>
   );
