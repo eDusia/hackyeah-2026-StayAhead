@@ -4,8 +4,10 @@ export type RootStackParamList = {
 };
 
 export type MainTabParamList = {
-  Home: undefined;
   Roadmap: undefined;
-  AgentChat: undefined;
+  News: undefined;
+  Today: undefined;
+  Jobs: undefined;
+  Messages: undefined;
   Profile: undefined;
 };

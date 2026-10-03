@@ -156,6 +156,22 @@ export function OnboardingScreen() {
 
   const daysLeft = daysUntil(targetDate.toISOString());
 
+  const fillDemoProfile = () => {
+    completeOnboarding({
+      name: 'Aleksandra',
+      currentRole: 'Frontend Developer',
+      goal: {
+        targetRole: 'AI Application Engineer',
+        domain: 'ai',
+        goalType: 'promotion',
+        timeCommitment: '1h_daily',
+        currentLevel: 'intermediate',
+        targetDate: addMonthsToDate(3).toISOString(),
+        description: 'Awans / Nowe technologie: przejście do roli AI Application Engineer w obszarze AI & Machine Learning (1 godzina / dzień).',
+      },
+    });
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-slate-50">
       <ScrollView
@@ -166,11 +182,19 @@ export function OnboardingScreen() {
       >
         {/* Header */}
         <View className="mt-4 items-center">
-          <View className="flex-row items-center gap-1.5 rounded-full border border-primary-200/80 bg-primary-50 px-3.5 py-1">
-            <Ionicons name="sparkles" size={12} color="#4f46e5" />
-            <Text className="text-[11px] font-bold uppercase tracking-widest text-primary-700">
-              StayAhead
-            </Text>
+          <View className="flex-row items-center justify-between w-full px-1">
+            <View className="flex-row items-center gap-1.5 rounded-full border border-primary-200/80 bg-primary-50 px-3.5 py-1">
+              <Ionicons name="sparkles" size={12} color="#4f46e5" />
+              <Text className="text-[11px] font-bold uppercase tracking-widest text-primary-700">
+                StayAhead
+              </Text>
+            </View>
+            <Pressable
+              onPress={fillDemoProfile}
+              className="rounded-full border border-primary-200 bg-white px-3 py-1 shadow-2xs active:bg-primary-50"
+            >
+              <Text className="text-[11px] font-bold text-primary-700">⚡ Wypełnij profil demo</Text>
+            </Pressable>
           </View>
 
           <View className="mt-3 items-center">
