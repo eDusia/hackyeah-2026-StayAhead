@@ -1,4 +1,4 @@
-import type { AppLanguage, CareerDomain, GoalType, TimeCommitment } from '@/types';
+import type { AppLanguage, CareerDomain, GoalType, NewsCategory, TimeCommitment } from '@/types';
 
 export interface Translations {
   common: {
@@ -107,6 +107,144 @@ export interface Translations {
     jobs: string;
     messages: string;
     profile: string;
+  };
+  news: {
+    tagline: string;
+    title: string;
+    subtitle: string;
+    searchPlaceholder: string;
+    categories: Record<NewsCategory, string>;
+    featuredBadge: string;
+    featuredHeader: string;
+    listenAction: string;
+    keyTakeawayLabel: string;
+    sourceLabel: string;
+    readFullAction: string;
+    latestHeader: string;
+    articlesCount: (count: number) => string;
+    emptyTitle: string;
+    emptyDesc: string;
+    voiceBrief: {
+      badge: string;
+      playingBadge: string;
+      cardTitle: string;
+      descriptions: Record<GoalType, string>;
+      defaultDescription: string;
+      topicsCount: (count: number) => string;
+      voiceLanguageTag: string;
+      cvTakeawaysTag: string;
+      openPlayerButton: string;
+      listenDigestButton: (duration: string) => string;
+    };
+    modal: {
+      listenArticleSummary: string;
+      keyTakeawayCareer: string;
+      introduction: string;
+      analysisDetails: string;
+      topicTags: string;
+      publishedPrefix: string;
+      sourcePrefix: string;
+    };
+  };
+  jobs: {
+    tagline: string;
+    title: string;
+    subtitle: string;
+    targetProfileHeader: string;
+    marketMatchLabel: string;
+    inDemandHeader: string;
+    inDemandSubheader: string;
+    openPositionsCount: (count: number) => string;
+    demandIndexLabel: string;
+    salaryAnalysisHeader: string;
+    salaryAnalysisSubheader: string;
+    b2bNote: string;
+    uopNote: string;
+    mentorTipTitle: string;
+    mentorTipDesc: string;
+    curatedOffersHeader: string;
+    curatedOffersSubheader: string;
+    top3Badge: string;
+    salaryLabel: string;
+    skillsLabel: string;
+    whyGoodMatchLabel: string;
+    viewDetailsAction: string;
+    modal: {
+      matchBadge: (score: number) => string;
+      salaryRangeTitle: string;
+      orUop: (salary: string) => string;
+      alignmentTitle: string;
+      matchingSkillsTitle: string;
+      missingSkillsTitle: string;
+      missingSkillPrefix: string;
+      aboutRoleTitle: string;
+      responsibilitiesTitle: string;
+      perksTitle: string;
+      consultMentorAction: string;
+      saveOfferAction: string;
+    };
+  };
+  roadmap: {
+    tagline: string;
+    title: string;
+    subtitlePrefix: string;
+    totalProgressHeader: string;
+    completedBadge: (percent: number) => string;
+    milestonesSummary: (completed: number, total: number) => string;
+    currentWeekStatus: string;
+    targetGapTitle: string;
+    targetGapMatch: (score: number) => string;
+    targetGapDesc: (company: string) => string;
+    milestonesHeader: string;
+    milestonesSubheader: string;
+    timelineHeader: string;
+    timelineSubheader: string;
+    goToTodayAction: string;
+  };
+  messages: {
+    tagline: string;
+    title: string;
+    availableMentorsBadge: string;
+    tabs: {
+      mentorAi: string;
+      hrChat: string;
+      mentorSessions: (count: number) => string;
+    };
+    aiTab: {
+      contextPrefix: (role: string, level: string) => string;
+      analyzingText: string;
+      inputPlaceholder: string;
+    };
+    hrTab: {
+      activeBadge: string;
+      replyTimeBadge: string;
+      recruiterInfoDesc: string;
+      inputPlaceholder: (recruiterFirstName: string) => string;
+    };
+    sessionsTab: {
+      bannerTitle: string;
+      bannerDesc: string;
+      bookedSessionsHeader: (count: number) => string;
+      bookingConfirmed: string;
+      cancelButton: string;
+      durationLabel: string;
+      topicPrefix: string;
+      availableSlotsHeader: string;
+      availableSlotsSubheader: string;
+      specializationPrefix: string;
+      bookedStatus: string;
+      selectSlotButton: string;
+    };
+    modal: {
+      bookTitle: string;
+      selectedMentorAndDate: string;
+      chooseTopicTitle: string;
+      confirmButton: string;
+      cancelButton: string;
+      successTitle: string;
+      successDesc: string;
+      successButton: string;
+    };
   };
   profile: {
     title: string;
@@ -295,6 +433,156 @@ export const translations: Record<AppLanguage, Translations> = {
       daysToGoal: (days) => `${days} dni do celu`,
       matchScore: (score) => `Dopasowanie do najbliższej oferty: ${score}%`,
     },
+    news: {
+      tagline: 'Wiedza & Trendy',
+      title: 'Nowości',
+      subtitle: 'Najważniejsze artykuły, zmiany w wymaganiach rekruterów i trendy technologiczne.',
+      searchPlaceholder: 'Szukaj artykułu, technologii, frazy...',
+      categories: {
+        all: 'Wszystkie',
+        ai_trends: 'Trendy AI',
+        market: 'Rynek & Płace',
+        tools: 'Narzędzia',
+        best_practices: 'Dobre praktyki',
+      },
+      featuredBadge: 'Must-read',
+      featuredHeader: 'Wyróżniony artykuł dnia',
+      listenAction: 'Odsłuchaj',
+      keyTakeawayLabel: 'Kluczowy wniosek:',
+      sourceLabel: 'Źródło:',
+      readFullAction: 'Czytaj całość',
+      latestHeader: 'Najnowsze publikacje',
+      articlesCount: (count: number) => `${count} ${count === 1 ? 'wpis' : 'wpisów'}`,
+      emptyTitle: 'Brak artykułów',
+      emptyDesc: 'Spróbuj zmienić kategorię lub wyczyścić pole wyszukiwania.',
+      voiceBrief: {
+        badge: 'Audio Briefing AI',
+        playingBadge: 'ODTWARZANIE',
+        cardTitle: 'Odsłuchaj podsumowanie newsów',
+        descriptions: {
+          parental_leave: 'AI lektor podsumowuje najważniejsze ruchy na rynku w 5 minut — idealne podczas spaceru z wózkiem lub drzemki malucha.',
+          return_after_break: 'AI lektor podsumowuje najważniejsze ruchy na rynku w 5 minut — idealne do spokojnej aktualizacji wiedzy w wolnej chwili.',
+          career_change: 'AI lektor podsumowuje najważniejsze ruchy na rynku w 5 minut — idealne do poznawania nowej branży krok po kroku.',
+          promotion: 'AI lektor podsumowuje najważniejsze ruchy na rynku w 5 minut — idealne w drodze do pracy lub podczas porannej kawy.',
+          other: 'AI lektor podsumowuje najważniejsze ruchy na rynku w 5 minut — idealne w drodze lub w krótkiej chwili dla siebie.',
+        },
+        defaultDescription: 'AI lektor podsumowuje najważniejsze ruchy na rynku w 5 minut — idealne podczas spaceru z wózkiem lub drzemki malucha.',
+        topicsCount: (count: number) => `🎧 ${count} kluczowe tematy`,
+        voiceLanguageTag: '🇵🇱 Lektor po polsku',
+        cvTakeawaysTag: '💡 Wnioski do CV',
+        openPlayerButton: 'Otwórz odtwarzacz głosowy',
+        listenDigestButton: (duration: string) => `Odsłuchaj skrót (${duration})`,
+      },
+      modal: {
+        listenArticleSummary: 'Odsłuchaj podsumowanie głosowe tego artykułu',
+        keyTakeawayCareer: 'Kluczowy wniosek dla Twojej kariery:',
+        introduction: 'Wprowadzenie',
+        analysisDetails: 'Analiza i szczegóły',
+        topicTags: 'Tagi tematyczne',
+        publishedPrefix: 'Opublikowano:',
+        sourcePrefix: 'Źródło:',
+      },
+    },
+    jobs: {
+      tagline: 'Rynek & Rekrutacja',
+      title: 'Oferty pracy',
+      subtitle: 'Analiza zapotrzebowania rynku, aktualne widełki i oferty dobrane pod Twój profil.',
+      targetProfileHeader: 'Twój profil docelowy',
+      marketMatchLabel: 'Dopasowanie do rynku',
+      inDemandHeader: 'Kogo najczęściej szukają?',
+      inDemandSubheader: 'Najszybciej rosnące zapotrzebowanie w branży Tech (dane 2026)',
+      openPositionsCount: (count: number) => `${count} aktywnych ofert`,
+      demandIndexLabel: 'Wskaźnik popytu',
+      salaryAnalysisHeader: 'Analiza widełek cenowych',
+      salaryAnalysisSubheader: 'Stawki rynkowe według poziomu doświadczenia',
+      b2bNote: 'Wynagrodzenie miesięczne netto (+ VAT) na fakturę',
+      uopNote: 'Miesięczne wynagrodzenie brutto na umowie o pracę',
+      mentorTipTitle: 'Wskazówka negocjacyjna od mentora:',
+      mentorTipDesc: 'Połączenie wiedzy programistycznej z ewaluacją agentów AI (moduł z Twojego 3. etapu) pozwala aplikować od razu na górne widełki poziomu Mid (22–24k B2B) lub role Senior w startupach produktowych.',
+      curatedOffersHeader: 'Najciekawsze oferty z dziś',
+      curatedOffersSubheader: 'Starannie wyselekcjonowane pod Twoje cele rozwojowe',
+      top3Badge: 'Top 3 Dnia',
+      salaryLabel: 'Stawka:',
+      skillsLabel: 'Kompetencje:',
+      whyGoodMatchLabel: 'Dlaczego warto:',
+      viewDetailsAction: 'Zobacz szczegóły oferty',
+      modal: {
+        matchBadge: (score: number) => `${score}% Dopasowania`,
+        salaryRangeTitle: 'Widełki wynagrodzenia:',
+        orUop: (salary: string) => `lub ${salary}`,
+        alignmentTitle: 'Analiza zgodności z Twoją ścieżką',
+        matchingSkillsTitle: 'Posiadane umiejętności:',
+        missingSkillsTitle: 'Do zrealizowania w kolejnych etapach:',
+        missingSkillPrefix: 'Do opanowania: ',
+        aboutRoleTitle: 'O stanowisku',
+        responsibilitiesTitle: 'Zakres obowiązków',
+        perksTitle: 'Benefity i środowisko',
+        consultMentorAction: 'Skonsultuj tę ofertę z Mentorem AI',
+        saveOfferAction: 'Zapisz ofertę do profilu',
+      },
+    },
+    roadmap: {
+      tagline: 'Ścieżka Rozwoju',
+      title: 'Twoja ścieżka',
+      subtitlePrefix: 'Dedykowany plan etapowy z kamieniami milowymi do roli',
+      totalProgressHeader: 'Całkowity postęp ścieżki',
+      completedBadge: (percent: number) => `${percent}% Ukończono`,
+      milestonesSummary: (completed: number, total: number) => `Ukończono ${completed} z ${total} kamieni milowych`,
+      currentWeekStatus: 'Tydzień 2 w trakcie',
+      targetGapTitle: 'Luka do oferty docelowej:',
+      targetGapMatch: (score: number) => `${score}% dopasowania`,
+      targetGapDesc: (company: string) => `Do odblokowania górnych widełek w ${company} brakuje modułu ewaluacji i architektury systemowej (Milestone 3).`,
+      milestonesHeader: 'Kamienie milowe',
+      milestonesSubheader: 'Kluczowe etapy weryfikowane przez rekruterów i rynek',
+      timelineHeader: 'Oś czasu (Tydzień po tygodniu)',
+      timelineSubheader: 'Krok po kroku do pełnej gotowości na rynku pracy',
+      goToTodayAction: 'Przejdź do dzisiejszego planu',
+    },
+    messages: {
+      tagline: 'Komunikacja',
+      title: 'Wiadomości',
+      availableMentorsBadge: 'Dostępni mentorzy',
+      tabs: {
+        mentorAi: 'Mentor AI',
+        hrChat: 'Czat z HR',
+        mentorSessions: (count: number) => count > 0 ? `Sesje (${count})` : 'Sesje 1:1',
+      },
+      aiTab: {
+        contextPrefix: (role: string, level: string) => `Kontekst: ${role} · Poziom: ${level}`,
+        analyzingText: 'Mentor analizuje Twoją ścieżkę...',
+        inputPlaceholder: 'Zadaj pytanie mentorowi AI...',
+      },
+      hrTab: {
+        activeBadge: 'Aktywna',
+        replyTimeBadge: 'W 24h',
+        recruiterInfoDesc: 'Możesz skonsultować realne oczekiwania rekruterów, zapytać o audyt CV pod ATS lub uzyskać bezpośrednie polecenie do firm partnerskich.',
+        inputPlaceholder: (recruiterFirstName: string) => `Napisz do ${recruiterFirstName} (HR)...`,
+      },
+      sessionsTab: {
+        bannerTitle: 'Możliwy czas z mentorem',
+        bannerDesc: 'Wybierz dogodny termin na bezpłatną 30-minutową sesję 1:1. Skonsultuj kod, architekturę agentów lub porozmawiaj z rekruterem o dopasowaniu CV do widełek rynkowych.',
+        bookedSessionsHeader: (count: number) => `Twoje zaplanowane spotkania (${count})`,
+        bookingConfirmed: 'Rezerwacja potwierdzona',
+        cancelButton: 'Odwołaj',
+        durationLabel: '30 min (Google Meet)',
+        topicPrefix: 'Temat:',
+        availableSlotsHeader: 'Dostępne sloty czasowe',
+        availableSlotsSubheader: 'Najbliższe dni',
+        specializationPrefix: 'Specjalizacja:',
+        bookedStatus: 'Zarezerwowano',
+        selectSlotButton: 'Wybierz termin',
+      },
+      modal: {
+        bookTitle: 'Rezerwacja sesji 1:1',
+        selectedMentorAndDate: 'Wybrany mentor i termin',
+        chooseTopicTitle: 'Wybierz cel / temat spotkania:',
+        confirmButton: 'Potwierdź i zarezerwuj termin',
+        cancelButton: 'Anuluj',
+        successTitle: 'Sesja 1:1 zarezerwowana!',
+        successDesc: 'Twój termin został zapisany. Link do wideo-rozmowy oraz przypomnienie w kalendarzu znajdziesz w zakładce "Sesje 1:1".',
+        successButton: 'Świetnie, przejdź do spotkań',
+      },
+    },
   },
   en: {
     common: {
@@ -465,6 +753,156 @@ export const translations: Record<AppLanguage, Translations> = {
       deadline: 'Deadline:',
       daysToGoal: (days) => `${days} days to goal`,
       matchScore: (score) => `Target job match: ${score}%`,
+    },
+    news: {
+      tagline: 'Knowledge & Trends',
+      title: 'News',
+      subtitle: 'Key articles, shifts in recruiter requirements, and technology trends.',
+      searchPlaceholder: 'Search article, tech, phrase...',
+      categories: {
+        all: 'All',
+        ai_trends: 'AI Trends',
+        market: 'Market & Salary',
+        tools: 'Tools',
+        best_practices: 'Best Practices',
+      },
+      featuredBadge: 'Must-read',
+      featuredHeader: 'Featured article of the day',
+      listenAction: 'Listen',
+      keyTakeawayLabel: 'Key takeaway:',
+      sourceLabel: 'Source:',
+      readFullAction: 'Read full',
+      latestHeader: 'Latest publications',
+      articlesCount: (count: number) => `${count} ${count === 1 ? 'article' : 'articles'}`,
+      emptyTitle: 'No articles',
+      emptyDesc: 'Try changing category or clearing your search term.',
+      voiceBrief: {
+        badge: 'AI Audio Briefing',
+        playingBadge: 'PLAYING',
+        cardTitle: 'Listen to news digest',
+        descriptions: {
+          parental_leave: 'AI voice briefing summarizes top market moves in 5 minutes — ideal during a stroller walk or baby nap.',
+          return_after_break: 'AI voice briefing summarizes top market moves in 5 minutes — ideal for catching up with industry trends at your own pace.',
+          career_change: 'AI voice briefing summarizes top market moves in 5 minutes — ideal for discovering a new tech domain step by step.',
+          promotion: 'AI voice briefing summarizes top market moves in 5 minutes — ideal on your commute or over morning coffee.',
+          other: 'AI voice briefing summarizes top market moves in 5 minutes — ideal on the go or during a quiet moment.',
+        },
+        defaultDescription: 'AI voice briefing summarizes top market moves in 5 minutes — ideal during a stroller walk or baby nap.',
+        topicsCount: (count: number) => `🎧 ${count} key topics`,
+        voiceLanguageTag: '🇵🇱 Polish AI Voice',
+        cvTakeawaysTag: '💡 CV Takeaways',
+        openPlayerButton: 'Open voice player',
+        listenDigestButton: (duration: string) => `Listen to digest (${duration})`,
+      },
+      modal: {
+        listenArticleSummary: 'Listen to voice summary of this article',
+        keyTakeawayCareer: 'Key takeaway for your career:',
+        introduction: 'Introduction',
+        analysisDetails: 'Analysis & details',
+        topicTags: 'Topic tags',
+        publishedPrefix: 'Published:',
+        sourcePrefix: 'Source:',
+      },
+    },
+    jobs: {
+      tagline: 'Market & Recruiting',
+      title: 'Job Offers',
+      subtitle: 'Market demand analysis, current salaries, and roles tailored to your profile.',
+      targetProfileHeader: 'Your target profile',
+      marketMatchLabel: 'Market match',
+      inDemandHeader: 'Who is in highest demand?',
+      inDemandSubheader: 'Fastest growing demand across Tech roles (2026 data)',
+      openPositionsCount: (count: number) => `${count} active jobs`,
+      demandIndexLabel: 'Demand index',
+      salaryAnalysisHeader: 'Salary range analysis',
+      salaryAnalysisSubheader: 'Market rates according to experience level',
+      b2bNote: 'Monthly net invoiced amount (+ VAT)',
+      uopNote: 'Monthly gross salary under employment contract',
+      mentorTipTitle: 'Negotiation tip from mentor:',
+      mentorTipDesc: 'Pairing software engineering with AI agent evaluation (milestone 3 in your plan) allows you to target top-tier Mid brackets (22–24k B2B) or Senior roles in product startups.',
+      curatedOffersHeader: 'Top curated offers today',
+      curatedOffersSubheader: 'Carefully handpicked for your career goals',
+      top3Badge: 'Top 3 of the Day',
+      salaryLabel: 'Salary:',
+      skillsLabel: 'Skills:',
+      whyGoodMatchLabel: 'Why it matches:',
+      viewDetailsAction: 'View offer details',
+      modal: {
+        matchBadge: (score: number) => `${score}% Match`,
+        salaryRangeTitle: 'Salary range:',
+        orUop: (salary: string) => `or ${salary}`,
+        alignmentTitle: 'Alignment with your career roadmap',
+        matchingSkillsTitle: 'Skills you have:',
+        missingSkillsTitle: 'To master in next stages:',
+        missingSkillPrefix: 'To master: ',
+        aboutRoleTitle: 'About the role',
+        responsibilitiesTitle: 'Responsibilities',
+        perksTitle: 'Perks & environment',
+        consultMentorAction: 'Consult this offer with AI Mentor',
+        saveOfferAction: 'Save offer to profile',
+      },
+    },
+    roadmap: {
+      tagline: 'Career Roadmap',
+      title: 'Your Roadmap',
+      subtitlePrefix: 'Dedicated milestone roadmap toward your role as',
+      totalProgressHeader: 'Total roadmap progress',
+      completedBadge: (percent: number) => `${percent}% Completed`,
+      milestonesSummary: (completed: number, total: number) => `Completed ${completed} of ${total} milestones`,
+      currentWeekStatus: 'Week 2 in progress',
+      targetGapTitle: 'Gap to target offer:',
+      targetGapMatch: (score: number) => `${score}% match`,
+      targetGapDesc: (company: string) => `Unlocking top salary bands at ${company} requires evaluation and system architecture modules (Milestone 3).`,
+      milestonesHeader: 'Milestones',
+      milestonesSubheader: 'Key checkpoints verified by recruiters and the market',
+      timelineHeader: 'Timeline (Week by week)',
+      timelineSubheader: 'Step by step toward complete job market readiness',
+      goToTodayAction: 'Go to today plan',
+    },
+    messages: {
+      tagline: 'Communication',
+      title: 'Messages',
+      availableMentorsBadge: 'Available mentors',
+      tabs: {
+        mentorAi: 'AI Mentor',
+        hrChat: 'HR Chat',
+        mentorSessions: (count: number) => count > 0 ? `Sessions (${count})` : '1:1 Sessions',
+      },
+      aiTab: {
+        contextPrefix: (role: string, level: string) => `Context: ${role} · Level: ${level}`,
+        analyzingText: 'Mentor is analyzing your roadmap...',
+        inputPlaceholder: 'Ask AI mentor a question...',
+      },
+      hrTab: {
+        activeBadge: 'Active',
+        replyTimeBadge: 'In 24h',
+        recruiterInfoDesc: 'Consult real recruiter expectations, request ATS CV reviews, or get direct referrals to partner companies.',
+        inputPlaceholder: (recruiterFirstName: string) => `Message ${recruiterFirstName} (HR)...`,
+      },
+      sessionsTab: {
+        bannerTitle: 'Available mentor time',
+        bannerDesc: 'Choose a convenient slot for a free 30-minute 1:1 session. Review code, agent architecture, or talk to a recruiter about CV-market fit.',
+        bookedSessionsHeader: (count: number) => `Your scheduled sessions (${count})`,
+        bookingConfirmed: 'Booking confirmed',
+        cancelButton: 'Cancel',
+        durationLabel: '30 min (Google Meet)',
+        topicPrefix: 'Topic:',
+        availableSlotsHeader: 'Available time slots',
+        availableSlotsSubheader: 'Upcoming days',
+        specializationPrefix: 'Specialization:',
+        bookedStatus: 'Booked',
+        selectSlotButton: 'Select slot',
+      },
+      modal: {
+        bookTitle: 'Book 1:1 session',
+        selectedMentorAndDate: 'Selected mentor & time',
+        chooseTopicTitle: 'Choose consultation topic:',
+        confirmButton: 'Confirm and book slot',
+        cancelButton: 'Cancel',
+        successTitle: '1:1 Session booked!',
+        successDesc: 'Your session has been saved. The video call link and calendar reminder are available under "1:1 Sessions".',
+        successButton: 'Great, view sessions',
+      },
     },
   },
 };

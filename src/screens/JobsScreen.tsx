@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Badge } from '@/components/common/Badge';
 import { Button } from '@/components/common/Button';
 import { Card } from '@/components/common/Card';
+import { getTranslations } from '@/i18n/translations';
 import { curatedDailyOffers, inDemandRoles, senioritySalaries } from '@/mock/jobsData';
 import { useUserStore } from '@/store/useUserStore';
 import type { ContractType, CuratedJobOffer, MainTabParamList } from '@/types';
@@ -15,6 +16,9 @@ import type { ContractType, CuratedJobOffer, MainTabParamList } from '@/types';
 export function JobsScreen() {
   const navigation = useNavigation<BottomTabNavigationProp<MainTabParamList>>();
   const profile = useUserStore((state) => state.profile);
+  const language = useUserStore((state) => state.language);
+  const t = getTranslations(language);
+
   const [contractType, setContractType] = useState<ContractType>('b2b');
   const [selectedOffer, setSelectedOffer] = useState<CuratedJobOffer | null>(null);
   const [savedOffers, setSavedOffers] = useState<string[]>([]);
@@ -31,11 +35,11 @@ export function JobsScreen() {
         {/* Header */}
         <View className="mt-2">
           <Text className="text-sm font-semibold uppercase tracking-wider text-primary-600">
-            Rynek & Rekrutacja
+            {t.jobs.tagline}
           </Text>
-          <Text className="mt-1 text-3xl font-bold text-slate-900">Oferty pracy</Text>
+          <Text className="mt-1 text-3xl font-bold text-slate-900">{t.jobs.title}</Text>
           <Text className="mt-1 text-base text-slate-500">
-            Analiza zapotrzebowania rynku, aktualne widełki i oferty dobrane pod Twój profil.
+            {t.jobs.subtitle}
           </Text>
         </View>
 
@@ -44,14 +48,14 @@ export function JobsScreen() {
           <View className="flex-row items-center justify-between">
             <View className="flex-1 pr-2">
               <Text className="text-xs font-semibold text-primary-700 uppercase">
-                Twój profil docelowy
+                {t.jobs.targetProfileHeader}
               </Text>
               <Text className="mt-0.5 text-base font-bold text-slate-900">
                 {profile.goal?.targetRole ?? 'AI Application Engineer'}
               </Text>
             </View>
             <View className="items-end">
-              <Text className="text-xs font-medium text-slate-500">Dopasowanie do rynku</Text>
+              <Text className="text-xs font-medium text-slate-500">{t.jobs.marketMatchLabel}</Text>
               <Text className="text-lg font-bold text-primary-700">78% Match</Text>
             </View>
           </View>
@@ -61,9 +65,9 @@ export function JobsScreen() {
         <View className="mt-7">
           <View className="flex-row items-center justify-between">
             <View>
-              <Text className="text-lg font-bold text-slate-900">Kogo najczęściej szukają?</Text>
+              <Text className="text-lg font-bold text-slate-900">{t.jobs.inDemandHeader}</Text>
               <Text className="text-xs text-slate-500">
-                Najszybciej rosnące zapotrzebowanie w branży Tech (dane 2026)
+                {t.jobs.inDemandSubheader}
               </Text>
             </View>
             <Ionicons name="trending-up" size={20} color="#4f46e5" />
@@ -87,7 +91,7 @@ export function JobsScreen() {
                       </Text>
                     </View>
                     <Text className="mt-1 text-[11px] font-medium text-slate-400">
-                      {role.openPositionsCount} aktywnych ofert
+                      {t.jobs.openPositionsCount(role.openPositionsCount)}
                     </Text>
                   </View>
                 </View>
@@ -95,7 +99,7 @@ export function JobsScreen() {
                 {/* Progress Meter */}
                 <View className="mt-3">
                   <View className="flex-row items-center justify-between text-xs">
-                    <Text className="text-[11px] font-medium text-slate-500">Wskaźnik popytu</Text>
+                    <Text className="text-[11px] font-medium text-slate-500">{t.jobs.demandIndexLabel}</Text>
                     <Text className="text-[11px] font-bold text-primary-700">
                       {role.demandIndex}/100
                     </Text>
@@ -125,9 +129,9 @@ export function JobsScreen() {
         <View className="mt-8">
           <View className="flex-row items-center justify-between">
             <View>
-              <Text className="text-lg font-bold text-slate-900">Analiza widełek cenowych</Text>
+              <Text className="text-lg font-bold text-slate-900">{t.jobs.salaryAnalysisHeader}</Text>
               <Text className="text-xs text-slate-500">
-                Stawki rynkowe według poziomu doświadczenia
+                {t.jobs.salaryAnalysisSubheader}
               </Text>
             </View>
             {/* Toggle B2B / UoP */}
@@ -165,9 +169,7 @@ export function JobsScreen() {
 
           <Card className="mt-3 p-4">
             <Text className="text-xs font-medium text-slate-500">
-              {contractType === 'b2b'
-                ? 'Wynagrodzenie miesięczne netto (+ VAT) na fakturę'
-                : 'Miesięczne wynagrodzenie brutto na umowie o pracę'}
+              {contractType === 'b2b' ? t.jobs.b2bNote : t.jobs.uopNote}
             </Text>
 
             <View className="mt-4 gap-4">
@@ -206,13 +208,11 @@ export function JobsScreen() {
               <View className="flex-row items-center gap-1.5">
                 <Ionicons name="sparkles" size={15} color="#4f46e5" />
                 <Text className="text-xs font-bold text-slate-900">
-                  Wskazówka negocjacyjna od mentora:
+                  {t.jobs.mentorTipTitle}
                 </Text>
               </View>
               <Text className="mt-1 text-xs leading-5 text-slate-600">
-                Połączenie wiedzy programistycznej z ewaluacją agentów AI (moduł z Twojego 3. etapu)
-                pozwala aplikować od razu na górne widełki poziomu Mid (22–24k B2B) lub role Senior
-                w startupach produktowych.
+                {t.jobs.mentorTipDesc}
               </Text>
             </View>
           </Card>
@@ -222,13 +222,13 @@ export function JobsScreen() {
         <View className="mt-8">
           <View className="flex-row items-center justify-between">
             <View>
-              <Text className="text-lg font-bold text-slate-900">Najciekawsze oferty z dziś</Text>
+              <Text className="text-lg font-bold text-slate-900">{t.jobs.curatedOffersHeader}</Text>
               <Text className="text-xs text-slate-500">
-                Starannie wyselekcjonowane pod Twoje cele rozwojowe
+                {t.jobs.curatedOffersSubheader}
               </Text>
             </View>
             <View className="rounded-full bg-primary-100 px-2 py-0.5">
-              <Text className="text-[11px] font-bold text-primary-700">Top 3 Dnia</Text>
+              <Text className="text-[11px] font-bold text-primary-700">{t.jobs.top3Badge}</Text>
             </View>
           </View>
 
@@ -288,7 +288,7 @@ export function JobsScreen() {
 
                     {/* Salary */}
                     <View className="mt-3 flex-row items-center justify-between border-y border-slate-100 py-2">
-                      <Text className="text-xs font-medium text-slate-500">Stawka:</Text>
+                      <Text className="text-xs font-medium text-slate-500">{t.jobs.salaryLabel}</Text>
                       <Text className="text-sm font-bold text-emerald-700">
                         {contractType === 'b2b' ? offer.salaryB2B : offer.salaryUoP}
                       </Text>
@@ -296,7 +296,7 @@ export function JobsScreen() {
 
                     {/* Skills pills: Matching vs Missing */}
                     <View className="mt-3">
-                      <Text className="text-[11px] font-medium text-slate-400">Kompetencje:</Text>
+                      <Text className="text-[11px] font-medium text-slate-400">{t.jobs.skillsLabel}</Text>
                       <View className="mt-1 flex-row flex-wrap gap-1.5">
                         {offer.matchingSkills.map((skill) => (
                           <View
@@ -323,7 +323,7 @@ export function JobsScreen() {
                     {/* Why good match */}
                     <View className="mt-3 rounded-xl bg-primary-50/60 p-2.5">
                       <Text className="text-xs leading-4 text-primary-800">
-                        💡 <Text className="font-semibold">Dlaczego warto:</Text>{' '}
+                        💡 <Text className="font-semibold">{t.jobs.whyGoodMatchLabel}</Text>{' '}
                         {offer.whyGoodMatch}
                       </Text>
                     </View>
@@ -331,7 +331,7 @@ export function JobsScreen() {
                     {/* Footer button */}
                     <View className="mt-3 flex-row items-center justify-end gap-1">
                       <Text className="text-xs font-bold text-primary-600">
-                        Zobacz szczegóły oferty
+                        {t.jobs.viewDetailsAction}
                       </Text>
                       <Ionicons name="chevron-forward" size={14} color="#4f46e5" />
                     </View>
@@ -353,7 +353,7 @@ export function JobsScreen() {
         <SafeAreaView className="flex-1 bg-white">
           <View className="flex-row items-center justify-between border-b border-slate-100 px-5 py-3">
             <View className="flex-row items-center gap-2">
-              <Badge label={`${selectedOffer?.matchScore}% Dopasowania`} variant="info" />
+              <Badge label={t.jobs.modal.matchBadge(selectedOffer?.matchScore ?? 0)} variant="info" />
               <Text className="text-xs text-slate-400">{selectedOffer?.company}</Text>
             </View>
             <Pressable
@@ -375,13 +375,13 @@ export function JobsScreen() {
 
               {/* Salary Card */}
               <View className="mt-4 rounded-2xl bg-emerald-50/70 p-4 border border-emerald-100">
-                <Text className="text-xs font-medium text-emerald-800">Widełki wynagrodzenia:</Text>
+                <Text className="text-xs font-medium text-emerald-800">{t.jobs.modal.salaryRangeTitle}</Text>
                 <Text className="mt-1 text-xl font-bold text-emerald-900">
                   {selectedOffer.salaryB2B}
                 </Text>
                 {selectedOffer.salaryUoP ? (
                   <Text className="mt-0.5 text-xs text-emerald-700">
-                    lub {selectedOffer.salaryUoP}
+                    {t.jobs.modal.orUop(selectedOffer.salaryUoP)}
                   </Text>
                 ) : null}
               </View>
@@ -389,7 +389,7 @@ export function JobsScreen() {
               {/* Match Evaluation */}
               <View className="mt-5">
                 <Text className="text-base font-bold text-slate-900">
-                  Analiza zgodności z Twoją ścieżką
+                  {t.jobs.modal.alignmentTitle}
                 </Text>
                 <Text className="mt-1 text-sm leading-5 text-slate-600">
                   {selectedOffer.whyGoodMatch}
@@ -397,7 +397,7 @@ export function JobsScreen() {
 
                 <View className="mt-3">
                   <Text className="text-xs font-bold text-emerald-800">
-                    Posiadane umiejętności:
+                    {t.jobs.modal.matchingSkillsTitle}
                   </Text>
                   <View className="mt-1.5 flex-row flex-wrap gap-1.5">
                     {selectedOffer.matchingSkills.map((s) => (
@@ -408,11 +408,11 @@ export function JobsScreen() {
 
                 <View className="mt-3">
                   <Text className="text-xs font-bold text-amber-800">
-                    Do zrealizowania w kolejnych etapach:
+                    {t.jobs.modal.missingSkillsTitle}
                   </Text>
                   <View className="mt-1.5 flex-row flex-wrap gap-1.5">
                     {selectedOffer.missingSkills.map((s) => (
-                      <Badge key={s} label={`Do opanowania: ${s}`} variant="warning" />
+                      <Badge key={s} label={`${t.jobs.modal.missingSkillPrefix}${s}`} variant="warning" />
                     ))}
                   </View>
                 </View>
@@ -420,7 +420,7 @@ export function JobsScreen() {
 
               {/* Description */}
               <View className="mt-6">
-                <Text className="text-base font-bold text-slate-900">O stanowisku</Text>
+                <Text className="text-base font-bold text-slate-900">{t.jobs.modal.aboutRoleTitle}</Text>
                 <Text className="mt-1.5 text-sm leading-6 text-slate-700">
                   {selectedOffer.description}
                 </Text>
@@ -428,7 +428,7 @@ export function JobsScreen() {
 
               {/* Responsibilities */}
               <View className="mt-6">
-                <Text className="text-base font-bold text-slate-900">Zakres obowiązków</Text>
+                <Text className="text-base font-bold text-slate-900">{t.jobs.modal.responsibilitiesTitle}</Text>
                 <View className="mt-2 gap-2">
                   {selectedOffer.keyResponsibilities.map((resp, i) => (
                     <View key={i} className="flex-row items-start gap-2">
@@ -441,7 +441,7 @@ export function JobsScreen() {
 
               {/* Perks */}
               <View className="mt-6">
-                <Text className="text-base font-bold text-slate-900">Benefity i środowisko</Text>
+                <Text className="text-base font-bold text-slate-900">{t.jobs.modal.perksTitle}</Text>
                 <View className="mt-2 flex-row flex-wrap gap-2">
                   {selectedOffer.perks.map((perk, i) => (
                     <View key={i} className="rounded-xl bg-slate-100 px-3 py-1.5">
@@ -454,14 +454,14 @@ export function JobsScreen() {
               {/* Action buttons */}
               <View className="mt-8 gap-3">
                 <Button
-                  label="Skonsultuj tę ofertę z Mentorem AI"
+                  label={t.jobs.modal.consultMentorAction}
                   onPress={() => {
                     setSelectedOffer(null);
                     navigation.navigate('Messages');
                   }}
                 />
                 <Button
-                  label="Zapisz ofertę do profilu"
+                  label={t.jobs.modal.saveOfferAction}
                   variant="outline"
                   onPress={() => {
                     toggleSaveOffer(selectedOffer.id);

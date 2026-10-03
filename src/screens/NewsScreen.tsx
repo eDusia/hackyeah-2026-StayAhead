@@ -10,19 +10,24 @@ import {
   VoiceBriefCard,
   VoicePlayerModal,
 } from '@/components/news';
+import { getTranslations } from '@/i18n/translations';
 import { dailyVoiceBriefing, newsArticles } from '@/mock/newsData';
+import { useUserStore } from '@/store/useUserStore';
 import type { NewsArticle, NewsCategory, VoiceBriefSnippet } from '@/types';
 import { speechService } from '@/utils';
 
-const CATEGORIES: { id: NewsCategory; label: string }[] = [
-  { id: 'all', label: 'Wszystkie' },
-  { id: 'ai_trends', label: 'Trendy AI' },
-  { id: 'market', label: 'Rynek & Płace' },
-  { id: 'tools', label: 'Narzędzia' },
-  { id: 'best_practices', label: 'Dobre praktyki' },
+const CATEGORY_KEYS: NewsCategory[] = [
+  'all',
+  'ai_trends',
+  'market',
+  'tools',
+  'best_practices',
 ];
 
 export function NewsScreen() {
+  const language = useUserStore((state) => state.language);
+  const t = getTranslations(language);
+
   const [selectedCategory, setSelectedCategory] = useState<NewsCategory>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>([]);
@@ -163,11 +168,11 @@ export function NewsScreen() {
         {/* Header */}
         <View className="mt-2">
           <Text className="text-sm font-semibold uppercase tracking-wider text-primary-600">
-            Wiedza & Trendy
+            {t.news.tagline}
           </Text>
-          <Text className="mt-1 text-3xl font-bold text-slate-900">Nowości</Text>
+          <Text className="mt-1 text-3xl font-bold text-slate-900">{t.news.title}</Text>
           <Text className="mt-1 text-base text-slate-500">
-            Najważniejsze artykuły, zmiany w wymaganiach rekruterów i trendy technologiczne.
+            {t.news.subtitle}
           </Text>
         </View>
 
@@ -191,7 +196,7 @@ export function NewsScreen() {
         <View className="mt-4 flex-row items-center rounded-2xl border border-slate-200 bg-white px-3 py-2.5">
           <Ionicons name="search-outline" size={18} color="#94a3b8" />
           <TextInput
-            placeholder="Szukaj artykułu, technologii, frazy..."
+            placeholder={t.news.searchPlaceholder}
             placeholderTextColor="#94a3b8"
             value={searchQuery}
             onChangeText={setSearchQuery}
@@ -210,12 +215,12 @@ export function NewsScreen() {
           showsHorizontalScrollIndicator={false}
           contentContainerClassName="gap-2 py-4"
         >
-          {CATEGORIES.map((cat) => {
-            const isSelected = selectedCategory === cat.id;
+          {CATEGORY_KEYS.map((catKey) => {
+            const isSelected = selectedCategory === catKey;
             return (
               <Pressable
-                key={cat.id}
-                onPress={() => setSelectedCategory(cat.id)}
+                key={catKey}
+                onPress={() => setSelectedCategory(catKey)}
                 className={`rounded-full px-4 py-2 ${
                   isSelected ? 'bg-primary-600' : 'border border-slate-200 bg-white'
                 }`}
@@ -225,7 +230,7 @@ export function NewsScreen() {
                     isSelected ? 'text-white' : 'text-slate-600'
                   }`}
                 >
-                  {cat.label}
+                  {t.news.categories[catKey]}
                 </Text>
               </Pressable>
             );
@@ -236,13 +241,13 @@ export function NewsScreen() {
         {selectedCategory === 'all' && searchQuery.trim() === '' && featured ? (
           <View className="mb-6">
             <Text className="mb-2.5 text-xs font-bold uppercase tracking-wider text-slate-400">
-              Wyróżniony artykuł dnia
+              {t.news.featuredHeader}
             </Text>
             <Pressable onPress={() => setActiveArticle(featured)}>
               <Card className="border-primary-100 bg-gradient-to-br from-white to-primary-50/40 p-5 shadow-md">
                 <View className="flex-row items-center justify-between">
                   <View className="flex-row items-center gap-2">
-                    <Badge label="Must-read" variant="info" />
+                    <Badge label={t.news.featuredBadge} variant="info" />
                     <Text className="text-xs font-medium text-slate-400">
                       {featured.readTime}
                     </Text>
@@ -258,7 +263,9 @@ export function NewsScreen() {
                       className="flex-row items-center gap-1 rounded-full bg-primary-50 px-2 py-1 border border-primary-200"
                     >
                       <Ionicons name="volume-medium" size={14} color="#4f46e5" />
-                      <Text className="text-[11px] font-bold text-primary-700">Odsłuchaj</Text>
+                      <Text className="text-[11px] font-bold text-primary-700">
+                        {t.news.listenAction}
+                      </Text>
                     </Pressable>
 
                     <Pressable
@@ -285,7 +292,9 @@ export function NewsScreen() {
                 </Text>
 
                 <View className="mt-4 rounded-xl bg-primary-50/70 p-3">
-                  <Text className="text-xs font-bold text-primary-800">Kluczowy wniosek:</Text>
+                  <Text className="text-xs font-bold text-primary-800">
+                    {t.news.keyTakeawayLabel}
+                  </Text>
                   <Text className="mt-0.5 text-xs text-primary-700">
                     {featured.keyTakeaway}
                   </Text>
@@ -293,10 +302,12 @@ export function NewsScreen() {
 
                 <View className="mt-4 flex-row items-center justify-between pt-2">
                   <Text className="text-xs text-slate-400">
-                    Źródło: {featured.source} · {featured.publishedAt}
+                    {t.news.sourceLabel} {featured.source} · {featured.publishedAt}
                   </Text>
                   <View className="flex-row items-center gap-1">
-                    <Text className="text-xs font-bold text-primary-600">Czytaj całość</Text>
+                    <Text className="text-xs font-bold text-primary-600">
+                      {t.news.readFullAction}
+                    </Text>
                     <Ionicons name="arrow-forward" size={13} color="#4f46e5" />
                   </View>
                 </View>
@@ -307,18 +318,20 @@ export function NewsScreen() {
 
         {/* Articles List */}
         <View className="flex-row items-center justify-between">
-          <Text className="text-lg font-bold text-slate-900">Najnowsze publikacje</Text>
+          <Text className="text-lg font-bold text-slate-900">{t.news.latestHeader}</Text>
           <Text className="text-xs font-medium text-slate-400">
-            {filteredArticles.length} {filteredArticles.length === 1 ? 'wpis' : 'wpisów'}
+            {t.news.articlesCount(filteredArticles.length)}
           </Text>
         </View>
 
         {filteredArticles.length === 0 ? (
           <Card className="mt-4 items-center py-8">
             <Ionicons name="newspaper-outline" size={40} color="#cbd5e1" />
-            <Text className="mt-2 text-base font-semibold text-slate-700">Brak artykułów</Text>
+            <Text className="mt-2 text-base font-semibold text-slate-700">
+              {t.news.emptyTitle}
+            </Text>
             <Text className="mt-1 text-xs text-slate-400">
-              Spróbuj zmienić kategorię lub wyczyścić pole wyszukiwania.
+              {t.news.emptyDesc}
             </Text>
           </Card>
         ) : (
@@ -461,7 +474,7 @@ export function NewsScreen() {
                 {activeArticle.title}
               </Text>
               <Text className="mt-2 text-xs text-slate-400">
-                Opublikowano: {activeArticle.publishedAt} · Źródło: {activeArticle.source}
+                {t.news.modal.publishedPrefix} {activeArticle.publishedAt} · {t.news.modal.sourcePrefix} {activeArticle.source}
               </Text>
 
               {/* Dedicated Voice Audio Button inside the Article Modal */}
@@ -471,7 +484,7 @@ export function NewsScreen() {
               >
                 <Ionicons name="volume-high" size={18} color="#4f46e5" />
                 <Text className="text-sm font-bold text-primary-700">
-                  Odsłuchaj podsumowanie głosowe tego artykułu
+                  {t.news.modal.listenArticleSummary}
                 </Text>
               </Pressable>
 
@@ -479,7 +492,7 @@ export function NewsScreen() {
                 <View className="flex-row items-center gap-1.5">
                   <Ionicons name="bulb-outline" size={18} color="#4f46e5" />
                   <Text className="text-sm font-bold text-primary-900">
-                    Kluczowy wniosek dla Twojej kariery:
+                    {t.news.modal.keyTakeawayCareer}
                   </Text>
                 </View>
                 <Text className="mt-1.5 text-sm leading-5 text-primary-800">
@@ -488,14 +501,14 @@ export function NewsScreen() {
               </View>
 
               <View className="mt-6">
-                <Text className="text-base font-semibold text-slate-900">Wprowadzenie</Text>
+                <Text className="text-base font-semibold text-slate-900">{t.news.modal.introduction}</Text>
                 <Text className="mt-2 text-base leading-7 text-slate-700">
                   {activeArticle.summary}
                 </Text>
               </View>
 
               <View className="mt-6">
-                <Text className="text-base font-semibold text-slate-900">Analiza i szczegóły</Text>
+                <Text className="text-base font-semibold text-slate-900">{t.news.modal.analysisDetails}</Text>
                 <Text className="mt-2 text-base leading-7 text-slate-700">
                   {activeArticle.content}
                 </Text>
@@ -503,7 +516,7 @@ export function NewsScreen() {
 
               <View className="mt-8 border-t border-slate-100 pt-4">
                 <Text className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                  Tagi tematyczne
+                  {t.news.modal.topicTags}
                 </Text>
                 <View className="mt-2 flex-row flex-wrap gap-2">
                   {activeArticle.tags.map((tag) => (
