@@ -15,7 +15,7 @@ export function VoiceBriefCard({
   isPlaying,
   onPressPlay,
   topicCount = 4,
-  durationText = '~2 min',
+  durationText = '~5 min',
 }: VoiceBriefCardProps) {
   return (
     <Card className="border-primary-200 bg-gradient-to-br from-primary-900 to-slate-900 p-4 shadow-md">
@@ -44,7 +44,7 @@ export function VoiceBriefCard({
         Odsłuchaj podsumowanie newsów
       </Text>
       <Text className="mt-1 text-xs leading-5 text-slate-300">
-        AI lektor podsumowuje najważniejsze ruchy na rynku w 2 minuty — idealne w drodze do pracy lub podczas przerwy na kawę.
+        AI lektor podsumowuje najważniejsze ruchy na rynku w 5 minut — idealne w drodze do pracy lub podczas przerwy na kawę.
       </Text>
 
       {/* Feature tags */}

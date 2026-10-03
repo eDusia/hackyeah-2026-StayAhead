@@ -77,10 +77,10 @@ export const newsArticles: NewsArticle[] = [
 export const dailyVoiceBriefing = {
   id: 'brief-today',
   title: 'StayAhead Audio Brief',
-  subtitle: 'Poranny skrót najważniejszych newsów i trendów rynku (2 min)',
-  totalDurationText: '~2 min',
+  subtitle: 'Poranny skrót najważniejszych newsów i trendów rynku (5 min)',
+  totalDurationText: '~5 min',
   introSpeech:
-    'Dzień dobry! Oto Twój 2-minutowy briefing głosowy StayAhead. Wybraliśmy najważniejsze wydarzenia z rynku, które mają bezpośredni wpływ na Twoją ścieżkę rozwoju.',
+    'Dzień dobry! Oto Twój 5-minutowy briefing głosowy StayAhead. Wybraliśmy najważniejsze wydarzenia z rynku, które mają bezpośredni wpływ na Twoją ścieżkę rozwoju.',
   outroSpeech:
     'To najważniejsze wnioski na dziś. Pełne wersje artykułów i szczegóły znajdziesz na liście nowości. Powodzenia w dzisiejszych zadaniach!',
   snippets: [
